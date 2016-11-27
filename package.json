@@ -1,0 +1,39 @@
+{
+  "name": "mikan",
+  "version": "0.0.1",
+  "description": "hubot-like slack bot using boktit",
+  "main": "index.js",
+  "scripts": {
+    "start": "forever start -a -p . -l logs/forever.log -o logs/out.log -e logs/err.log index.js",
+    "stop": "forever -p . stopall",
+    "restart": "npm stop && npm start",
+    "list": "forever -p . list",
+    "lint": "eslint .",
+    "local": "node .",
+    "coverage": "nyc -i babel-register mocha $(find test/ -type f -name \"*.js\")",
+    "test": "npm run lint && npm run coverage"
+  },
+  "author": "Masayuki Uehara",
+  "license": "ISC",
+  "dependencies": {
+    "botkit": "^0.4.0",
+    "cron": "^1.1.1",
+    "forever": "^0.15.3",
+    "lodash": "^4.16.4",
+    "request": "^2.76.0",
+    "winston": "^2.3.0",
+    "winston-daily-rotate-file": "^1.3.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.18.2",
+    "babel-preset-es2015": "^6.18.0",
+    "chai": "^3.5.0",
+    "eslint": "^3.11.1",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "mocha": "^3.2.0",
+    "nyc": "^10.0.0",
+    "sinon": "^1.17.6",
+    "sinon-chai": "^2.8.0"
+  }
+}
