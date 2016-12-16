@@ -1,7 +1,7 @@
 // Commands:
 //  shinchoku add [url] - Add shinchoku images
 //  shinchoku show - Show random shinchoku image
-//  shinchoku dame [url] - Addd shinchoku dame image
+//  shinchoku dame [url] - Add shinchoku dame image
 //  shinchoku dame - Show random shinchoku dame image
 //  shinchoku list - Show random shinchoku image list
 
@@ -11,22 +11,13 @@ const strings = require('../lib/strings.js');
 module.exports = controller => {
   const storage = controller.storage.of('shinchoku');
 
-  storage.get((err, data) => {
-    if (data && _.isArray(data)) {
-      console.log('ok');
-      storage.save({
-        good: data
-      });
-    }
-  });
-
   const save = (status, url, callback) => {
     storage.get((err, data) => {
       if (data) {
         if (!data[status]) {
           data[status] = [];
         }
-        data[status] = data[status].concat(url)
+        data[status] = data[status].concat(url);
         storage.save(data, callback);
       } else {
         storage.save({
