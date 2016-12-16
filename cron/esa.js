@@ -32,7 +32,7 @@ module.exports = bot => {
           if (data) {
             bot.say({
               channel: channel.id,
-              text: `進捗どうですか ${_.sample(images.concat(data), 1)}`,
+              text: `進捗どうですか ${_.sample(images.concat(data['good']), 1)}`,
               username: 'esa',
               icon_emoji: ':esa:'
             });
