@@ -3,6 +3,7 @@
 
 const request = require('request');
 const url = 'https://lttm-ssl.herokuapp.com/lgtm';
+const logger = require('../lib/logger.js');
 
 module.exports = controller => {
   const fetchImageUrl = (cb = () => {}) => {
@@ -30,6 +31,15 @@ module.exports = controller => {
         username: 'LGTM',
         icon_emoji: ':+1:'
       });
+      bot.api.reactions.add({
+        timestamp: message.ts,
+        channel: message.channel,
+        name: '+1'
+      }, (err) => {
+        if (err) {
+          logger.log('Failed to add emoji reaction :(', err);
+        }
+      }); 
     };
     fetchImageUrl(callback);
   });
