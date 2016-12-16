@@ -51,3 +51,4 @@ config.json
 yarn-error.log
 !.keep
 !logs/.keep
+tmp/

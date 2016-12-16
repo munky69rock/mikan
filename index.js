@@ -64,7 +64,7 @@ bot.botkit.on('rtm_open', () => {
     help.parse(path, bot.identity.name);
   });
 }).on('rtm_close', () => {
-  process.exit();  
+  process.exit(1);
 });
 
 // load and save team, member and channel data from slack

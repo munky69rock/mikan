@@ -7,7 +7,7 @@ hubot-like slack bot using [botkit](https://github.com/howdyai/botkit/)
 ```sh
 $ npm i -g yarn
 $ yarn
-$ token=[SLACK_TOKEN] npm start
+$ token=[SLACK_TOKEN] yarn start
 ```
 
 ## Configuration
@@ -22,7 +22,7 @@ console.log(controller.config.key); // value
 ## Testing
 
 ```sh
-$ npm run lint
-$ npm run coverage
-$ npm test # lint & coverage
+$ yarn run lint
+$ yarn run coverage
+$ yarn test # lint & coverage
 ```
