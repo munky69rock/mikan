@@ -7,6 +7,7 @@
 
 const _ = require('lodash');
 const strings = require('../lib/strings.js');
+const color = require('../lib/color.js');
 
 module.exports = controller => {
   const storage = controller.storage.of('shinchoku');
@@ -32,9 +33,9 @@ module.exports = controller => {
   };
 
   const getStatusFromKeyword = (keyword) => {
-    if (/add|show|ok|good/.test(keyword)) {
+    if (/add|show|ok|good|どう/.test(keyword)) {
       return 'good';
-    } else if (/dame|no|ng|bad/.test(keyword)) {
+    } else if (/dame|no|ng|bad|ダメ/.test(keyword)) {
       return 'bad';
     }
   };
@@ -60,11 +61,29 @@ module.exports = controller => {
     }
   });
 
-  controller.hears([/shinchoku (show|ok|good|dame|no|ng|bad)/i], 'direct_message,direct_mention,mention,ambient', (bot, message) => {
+  controller.hears([/shinchoku (show|ok|good|dame|no|ng|bad)/i, /(進捗ダメ(?:です)?|進捗どう(?:ですか)?)/], 'direct_message,direct_mention,mention,ambient', (bot, message) => {
     const status = getStatusFromKeyword(message.match[1]);
     storage.get((err, data) => {
       if (data && data[status]) {
-        bot.reply(message, _.sample(data[status], 1));
+        const url = _.sample(data[status], 1)
+        let title = '';
+        let clr = '';
+        if (status === 'good') {
+          title = '進捗どうですか';
+          clr = color.info;
+        } else {
+          title = '進捗ダメです';
+          clr = color.danger;
+        }
+        bot.reply(message, {
+          attachments: [
+            {
+              title: `<${url}|${title}>`,
+              image_url: url,
+              color: clr,
+            }
+          ]
+        });
       }
     });
   });
