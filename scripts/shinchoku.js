@@ -6,7 +6,6 @@
 //  shinchoku list - Show random shinchoku image list
 
 const _ = require('lodash');
-const strings = require('../lib/strings.js');
 const color = require('../lib/color.js');
 
 module.exports = controller => {
@@ -65,7 +64,7 @@ module.exports = controller => {
     const status = getStatusFromKeyword(message.match[1]);
     storage.get((err, data) => {
       if (data && data[status]) {
-        const url = _.sample(data[status], 1)
+        const url = _.sample(data[status], 1);
         let title = '';
         let clr = '';
         if (status === 'good') {
@@ -91,16 +90,20 @@ module.exports = controller => {
   controller.hears([/shinchoku list/i], 'direct_message,direct_mention,mention,ambient', (bot, message) => {
     storage.get((err, data) => {
       if (data) {
-        const result = strings.hdoc(`
-          \`\`\`
-          good:
-          ${data.good.map(s => `  ${s}`).join('\n')}
-
-          bad:
-          ${data.bad.map(s => `  ${s}`).join('\n')}
-          \`\`\`
-        `);
-        bot.reply(message, result);
+        bot.reply(message, {
+          attachments: [
+            {
+              title: 'GOOD',
+              text: data.good.join('\n'),
+              color: color.success
+            },
+            {
+              title: 'BAD',
+              text: data.bad.join('\n'),
+              color: color.danger
+            }
+          ]
+        });
       }
     });
   });
