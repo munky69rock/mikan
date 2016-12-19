@@ -75,6 +75,8 @@ module.exports = controller => {
           clr = color.danger;
         }
         bot.reply(message, {
+          username: 'esa',
+          icon_emoji: ':esa:',
           attachments: [
             {
               title: `<${url}|${title}>`,
@@ -91,6 +93,8 @@ module.exports = controller => {
     storage.get((err, data) => {
       if (data) {
         bot.reply(message, {
+          username: 'esa',
+          icon_emoji: ':esa:',
           attachments: [
             {
               title: 'GOOD',

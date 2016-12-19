@@ -1,6 +1,7 @@
 const CronJob = require('cron').CronJob;
 const _ = require('lodash');
 const logger = require('../lib/logger.js');
+const color = require('../lib/color.js');
 
 const images = [
   'https://qiita-image-store.s3.amazonaws.com/0/23997/2981ab1a-3f67-8e28-72d9-e519f030cff1.jpeg',
@@ -30,11 +31,18 @@ module.exports = bot => {
       onTick() {
         storage.get((err, data) => {
           if (data) {
+            const url = _.sample(images.concat(data['good']), 1);
             bot.say({
               channel: channel.id,
-              text: `進捗どうですか ${_.sample(images.concat(data['good']), 1)}`,
               username: 'esa',
-              icon_emoji: ':esa:'
+              icon_emoji: ':esa:',
+              attachments: [
+                {
+                  title: `<${url}|進捗どうですか>`,
+                  image_url: url,
+                  color: color.success,
+                }
+              ]
             });
           }
         });
