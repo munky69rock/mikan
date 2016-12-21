@@ -39,7 +39,7 @@ module.exports = controller => {
     }
   };
 
-  controller.hears([/shinchoku (add|ok|good|dame|no|ng) (.*)/i], 'direct_message,direct_mention,mention,ambient', (bot, message) => {
+  controller.hears([/shinc[hy]oku (add|ok|good|dame|no|ng) (.*)/i], 'direct_message,direct_mention,mention,ambient', (bot, message) => {
     const status = getStatusFromKeyword(message.match[1]);
     const url = message.match[2].trim().replace(/\</, '').replace(/>$/, '');
 
@@ -60,7 +60,7 @@ module.exports = controller => {
     }
   });
 
-  controller.hears([/shinchoku (show|ok|good|dame|no|ng|bad)/i, /(進捗ダメ(?:です)?|進捗どう(?:ですか)?)/], 'direct_message,direct_mention,mention,ambient', (bot, message) => {
+  controller.hears([/shinc[hy]oku (show|ok|good|dame|no|ng|bad)/i, /(進捗ダメ(?:です)?|進捗どう(?:ですか)?)/], 'direct_message,direct_mention,mention,ambient', (bot, message) => {
     const status = getStatusFromKeyword(message.match[1]);
     storage.get((err, data) => {
       if (data && data[status]) {
@@ -89,7 +89,19 @@ module.exports = controller => {
     });
   });
 
-  controller.hears([/shinchoku list/i], 'direct_message,direct_mention,mention,ambient', (bot, message) => {
+  controller.hears([/進捗(?:いい|良い)です/i], 'direct_message,direct_mention,mention,ambient', (bot, message) => {
+    bot.api.reactions.add({
+      timestamp: message.ts,
+      channel: message.channel,
+      name: 'congratulations'
+    }, (err) => {
+      if (err) {
+        bot.botkit.log('Failed to add emoji reaction :(', err);
+      }
+    }); 
+  });
+
+  controller.hears([/shinc[hy]oku list/i], 'direct_message,direct_mention,mention,ambient', (bot, message) => {
     storage.get((err, data) => {
       if (data) {
         bot.reply(message, {
