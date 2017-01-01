@@ -1,5 +1,5 @@
 // Commands:
-//  ambush [username] [message] - Send messages to users the next time they speak
+//  ambush {username} {message} - Send messages to users the next time they speak
 
 const strings = require('../lib/strings.js');
 const Ambush = require('../lib/ambush.js');

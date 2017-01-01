@@ -1,7 +1,7 @@
 // Commands:
-//  shinchoku add [url] - Add shinchoku images
+//  shinchoku add {url} - Add shinchoku images
 //  shinchoku show - Show random shinchoku image
-//  shinchoku dame [url] - Add shinchoku dame image
+//  shinchoku dame {url} - Add shinchoku dame image
 //  shinchoku dame - Show random shinchoku dame image
 //  shinchoku list - Show random shinchoku image list
 

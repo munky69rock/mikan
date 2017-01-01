@@ -1,6 +1,6 @@
 const CronJob = require('cron').CronJob;
 const _ = require('lodash');
-const holiday = require('holiday-jp');
+const isHoliday = require('../lib/holiday.js');
 const logger = require('../lib/logger.js');
 const color = require('../lib/color.js');
 
@@ -30,7 +30,7 @@ module.exports = bot => {
     new CronJob({
       cronTime: '0 20 * * 1-5',
       onTick() {
-        if (holiday.isHoliday(new Date())) {
+        if (isHoliday(new Date())) {
           return;
         }
         storage.get((err, data) => {

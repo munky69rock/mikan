@@ -1,5 +1,5 @@
 // Commands:
-//  stamp [text] - Generate stamp image
+//  stamp {text} - [WIP] Generate stamp image
 
 const StampGenerator = require('../lib/stamp_generator.js');
 
