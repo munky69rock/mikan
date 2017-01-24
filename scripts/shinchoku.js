@@ -4,6 +4,7 @@
 //  shinchoku dame {url} - Add shinchoku dame image
 //  shinchoku dame - Show random shinchoku dame image
 //  shinchoku list - Show random shinchoku image list
+//  shinchoku remove {url} - Remove shinchoku image
 
 const _ = require('lodash');
 const color = require('../lib/color.js');
@@ -120,6 +121,30 @@ module.exports = controller => {
             }
           ]
         });
+      }
+    });
+  });
+
+  controller.hears([/shinchoku (?:remove|rm) (.*)/], 'direct_message,direct_mention,mention,ambient', (bot, message) => {
+    const url = message.match[1].trim().replace(/\</, '').replace(/>$/, '');
+    storage.get((err, data) => {
+      if (data) {
+        Object.keys(data).forEach(k => {
+          if (k === 'id') {
+            return;
+          }
+          data[k] = data[k].filter(u => u !== url);
+        });
+        storage.save(data);
+        bot.api.reactions.add({
+          timestamp: message.ts,
+          channel: message.channel,
+          name: 'ok_hand'
+        }, (err) => {
+          if (err) {
+            bot.botkit.log('Failed to add emoji reaction :(', err);
+          }
+        }); 
       }
     });
   });
