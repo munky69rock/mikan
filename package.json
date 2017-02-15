@@ -16,7 +16,7 @@
   "author": "Masayuki Uehara",
   "license": "ISC",
   "dependencies": {
-    "botkit": "^0.4.0",
+    "botkit": "^0.5.0",
     "cron": "^1.1.1",
     "forever": "^0.15.3",
     "lodash": "^4.16.4",
