@@ -7,7 +7,7 @@ const url = URL.parse('http://www.irasutoya.com/search');
 
 module.exports = controller => {
 
-  controller.hears([/(?:いらすとや|irasutoya) (.+)/], 'direct_message,direct_mention,mention', (bot, message) => {
+  controller.hears([/(?:いらすとや|irasutoya) (.+)/], 'direct_message,direct_mention,mention,ambient', (bot, message) => {
 
     url.query = {
       q: message.match[1]
@@ -22,22 +22,26 @@ module.exports = controller => {
 
       const $ = cheerio.load(body);
 
-      const scripts = $('a > script');
-      console.dir(scripts);
-      const script = _.sample(scripts);
-      console.dir(script);
-      const m = script.children[0].data.match(/(https?:\/\/[^"]+)","([^"]+)"/);
-      const image_src = m[1].replace('/s72-c/','/s180-c/');
-      const image_alt = m[2];
+      try {
+        const scripts = $('a > script');
+        console.dir(scripts);
+        const script = _.sample(scripts);
+        console.dir(script);
+        const m = script.children[0].data.match(/(https?:\/\/[^"]+)","([^"]+)"/);
+        const image_src = m[1].replace('/s72-c/','/s180-c/');
+        const image_alt = m[2];
 
-      bot.reply(message, {
-        attachments: [
-          {
-            title: `<${image_src}|${image_alt}>`,
-            image_url: image_src
-          }
-        ]
-      });
+        bot.reply(message, {
+          attachments: [
+            {
+              title: `<${image_src}|${image_alt}>`,
+              image_url: image_src
+            }
+          ]
+        });
+      } catch(e) {
+        console.dir(e);
+      }
     });
   });
 };

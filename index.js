@@ -27,6 +27,16 @@ controller.hooks = new EventHook(['ambient'], (hooks) => {
   }); 
 });
 
+// handle bot_message
+controller.on('bot_message', (bot, message) => {
+  message.attachments.forEach((attachment) => {
+    if (attachment.text.match(/<(https?:\/\/[^>\|]+)>/)) {
+      const link = RegExp.$1; 
+      bot.reply(message, link);
+    }
+  });
+});
+
 // load config if json exists
 const configFile = './config.json';
 if (fs.existsSync(configFile)) {
@@ -57,6 +67,7 @@ if (userLocalToken) {
       });
     });
   });
+
 }
 
 const bot = controller.spawn({
