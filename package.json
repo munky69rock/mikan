@@ -4,8 +4,8 @@
   "version": "0.0.1",
   "author": "Masayuki Uehara",
   "dependencies": {
-    "botkit": "^0.4.0",
-    "botkit": "^0.5.0",
+    "botkit": "^0.5.1",
+    "botkit": "^0.5.1",
     "canvas": "^1.6.2",
     "cheerio": "^0.22.0",
     "cron": "^1.1.1",
