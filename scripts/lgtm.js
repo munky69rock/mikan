@@ -3,7 +3,7 @@
 
 const request = require('request');
 const url = 'https://lttm-ssl.herokuapp.com/lgtm';
-const logger = require('../lib/logger.js');
+const logger = require.main.require('./lib/logger.js');
 
 module.exports = controller => {
   const fetchImageUrl = (cb = () => {}) => {

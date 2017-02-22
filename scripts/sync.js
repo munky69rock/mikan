@@ -1,9 +1,9 @@
 // Commands:
 //  sync - Sync slack data
 
-const SlackSync = require('../lib/slack_sync.js');
-const Interval = require('../lib/interval.js');
-const logger = require('../lib/logger.js');
+const SlackSync = require.main.require('./lib/slack_sync.js');
+const Interval  = require.main.require('./lib/interval.js');
+const logger    = require.main.require('./lib/logger.js');
 
 module.exports = controller => {
   const interval = new Interval();

@@ -2,9 +2,9 @@
 //   <name>++
 //   <name>--
 
-const ScoreKeeper = require('../lib/score_keeper.js');
-const strings = require('../lib/strings.js');
-const logger = require('../lib/logger.js');
+const ScoreKeeper = require.main.require('./lib/score_keeper.js');
+const strings     = require.main.require('./lib/strings.js');
+const logger      = require.main.require('./lib/logger.js');
 
 module.exports = controller => {
   const scoreKeeper = new ScoreKeeper(controller.storage.of(__filename));

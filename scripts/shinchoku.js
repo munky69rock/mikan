@@ -7,7 +7,7 @@
 //  shinchoku remove {url} - Remove shinchoku image
 
 const _ = require('lodash');
-const color = require('../lib/color.js');
+const color = require.main.require('./lib/color.js');
 
 module.exports = controller => {
   const storage = controller.storage.of('shinchoku');
@@ -65,7 +65,7 @@ module.exports = controller => {
     const status = getStatusFromKeyword(message.match[1]);
     storage.get((err, data) => {
       if (data && data[status]) {
-        const url = _.sample(data[status], 1);
+        const url = _.sample(data[status]);
         let title = '';
         let clr = '';
         if (status === 'good') {

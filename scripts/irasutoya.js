@@ -13,8 +13,6 @@ module.exports = controller => {
       q: message.match[1]
     };
 
-    console.dir(url.query);
-
     request.get(URL.format(url), (error, response, body) => {
       if (error || response.statusCode !== 200) {
         return;
@@ -24,9 +22,7 @@ module.exports = controller => {
 
       try {
         const scripts = $('a > script');
-        console.dir(scripts);
         const script = _.sample(scripts);
-        console.dir(script);
         const m = script.children[0].data.match(/(https?:\/\/[^"]+)","([^"]+)"/);
         const image_src = m[1].replace('/s72-c/','/s180-c/');
         const image_alt = m[2];
@@ -40,7 +36,7 @@ module.exports = controller => {
           ]
         });
       } catch(e) {
-        console.dir(e);
+        //console.dir(e);
       }
     });
   });

@@ -140,10 +140,10 @@ if (clientId && clientSecret && redirectUri) {
       })
       .createWebhookEndpoints(webserver);
 
-    //webserver.get('/ping', (req, res) => {
-    //  controller.log("pong!");
-    //  res.send('pong!');
-    //});
+    webserver.post('/ping', (req, res) => {
+      controller.log('ping!');
+      res.send('pong!');
+    });
   });
 
   controller.on('slash_command', (bot, message) => {

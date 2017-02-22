@@ -1,7 +1,7 @@
 // Commands:
 //  stamp {text} - [WIP] Generate stamp image
 
-const StampGenerator = require('../lib/stamp_generator.js');
+const StampGenerator = require.main.require('./lib/stamp_generator.js');
 
 module.exports = controller => {
   const stampGenerator = new StampGenerator();

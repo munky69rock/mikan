@@ -1,8 +1,8 @@
 // Commands:
 //  ambush {username} {message} - Send messages to users the next time they speak
 
-const strings = require('../lib/strings.js');
-const Ambush = require('../lib/ambush.js');
+const strings = require.main.require('./lib/strings.js');
+const Ambush = require.main.require('./lib/ambush.js');
 
 module.exports = controller => {
 
