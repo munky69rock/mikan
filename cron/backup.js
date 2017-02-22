@@ -1,5 +1,5 @@
 const CronJob = require('cron').CronJob;
-const backup = require('../lib/backup.js');
+const backup = require.main.require('./lib/backup.js');
 
 module.exports = () => {
   new CronJob({

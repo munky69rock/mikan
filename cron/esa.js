@@ -1,7 +1,8 @@
 const CronJob = require('cron').CronJob;
 const _ = require('lodash');
-const logger = require('../lib/logger.js');
-const color = require('../lib/color.js');
+const isHoliday = require.main.require('./lib/holiday.js');
+const logger = require.main.require('./lib/logger.js');
+const color = require.main.require('./lib/color.js');
 
 const images = [
   'https://qiita-image-store.s3.amazonaws.com/0/23997/2981ab1a-3f67-8e28-72d9-e519f030cff1.jpeg',
@@ -29,9 +30,12 @@ module.exports = bot => {
     new CronJob({
       cronTime: '0 20 * * 1-5',
       onTick() {
+        if (isHoliday(new Date())) {
+          return;
+        }
         storage.get((err, data) => {
           if (data) {
-            const url = _.sample(images.concat(data['good']), 1);
+            const url = _.sample(images.concat(data['good']));
             bot.say({
               channel: channel.id,
               username: 'esa',
