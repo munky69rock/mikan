@@ -140,9 +140,9 @@ if (clientId && clientSecret && redirectUri) {
       })
       .createWebhookEndpoints(webserver);
 
-    webserver.post('/ping', (req, res) => {
-      controller.log('ping!');
-      res.send('pong!');
+    const serverPath = Path.join(__dirname, 'server');
+    fs.readdirSync(serverPath).forEach(file => {
+      require(`${serverPath}/${file}`)(webserver);
     });
   });
 
