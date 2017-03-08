@@ -15,6 +15,7 @@ const images = [
   'http://tn-skr3.smilevideo.jp/smile?i=24187254.L',
   'http://livedoor.blogimg.jp/tank_make/imgs/3/b/3b089b3a.jpg',
   'http://66.media.tumblr.com/067d04f3df4605af4a6c574237cb06e2/tumblr_mqlmq4YufD1sckns5o1_500.jpg',
+  'http://tf.mentai.co/shinchoku000.png',
 ];
 
 module.exports = bot => {
@@ -23,6 +24,7 @@ module.exports = bot => {
   bot.botkit.storage.channels.all((err, channels) => {
     if (err) {
       logger.warn(err);
+      return;
     }
 
     const channel = _.find(channels, { name: 'esa' });

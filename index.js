@@ -29,6 +29,9 @@ controller.hooks = new EventHook(['ambient'], (hooks) => {
 
 // handle bot_message
 controller.on('bot_message', (bot, message) => {
+  if (!message.attachments) {
+    return;
+  }
   message.attachments.forEach((attachment) => {
     if (attachment.text.match(/<(https?:\/\/[^>\|]+)>/)) {
       const link = RegExp.$1; 
@@ -142,7 +145,7 @@ if (clientId && clientSecret && redirectUri) {
 
     const serverPath = Path.join(__dirname, 'server');
     fs.readdirSync(serverPath).forEach(file => {
-      require(`${serverPath}/${file}`)(webserver);
+      require(`${serverPath}/${file}`)(webserver, controller);
     });
   });
 
