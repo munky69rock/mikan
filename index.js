@@ -33,7 +33,7 @@ controller.on('bot_message', (bot, message) => {
     return;
   }
   message.attachments.forEach((attachment) => {
-    if (attachment.text.match(/<(https?:\/\/[^>\|]+)>/)) {
+    if (attachment && attachment.text && attachment.text.match(/<(https?:\/\/[^>\|]+)>/)) {
       const link = RegExp.$1; 
       bot.reply(message, link);
     }
