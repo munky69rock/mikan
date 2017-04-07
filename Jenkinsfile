@@ -1,10 +1,9 @@
 pipeline {
   agent any
   stages {
-    stage('') {
+    stage('Test') {
       steps {
-        sh '''ls
-which node'''
+        sh 'ls -lah'
       }
     }
   }
