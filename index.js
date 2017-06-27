@@ -18,7 +18,7 @@ const controller = require('botkit').slackbot({
 });
 
 // FIXME: ensure callback to be always executed
-controller.hooks = new EventHook(['ambient'], (hooks) => {
+controller.hooks = new EventHook(['ambient'], hooks => {
   Object.keys(hooks.events).forEach(e => {
     controller.on(e, (bot, message) => {
       logger.debug(`hooks ${e}`);
