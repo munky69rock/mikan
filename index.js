@@ -10,6 +10,7 @@ const fs = require('fs');
 const Path = require('path');
 const help = require('./lib/help.js');
 const storage = require('./lib/storage.js');
+const UrlHealthChecker = require('./lib/url_health_checker.js');
 const EventHook = require('./lib/event_hook.js');
 const request = require('request');
 
@@ -29,13 +30,27 @@ controller.hooks = new EventHook(['ambient'], hooks => {
 
 // handle bot_message
 controller.on('bot_message', (bot, message) => {
+  logger.debug(`bot_message: ${message.text}`, message);
   if (!message.attachments) {
+    logger.debug('bot_message: no attachments');
     return;
   }
   message.attachments.forEach((attachment) => {
-    if (attachment && attachment.text && attachment.text.match(/<(https?:\/\/[^>\|]+)>/)) {
-      const link = RegExp.$1; 
-      bot.reply(message, link);
+    logger.debug('attachment', attachment);
+    const link_pattern = /[<(](https?:\/\/[^>)|]+)[>)|]/g;
+    let links = [];
+    if (attachment && attachment.text) {
+      let m = null;
+      while (m = link_pattern.exec(attachment.text)) {
+        links.push(m[1]);
+      }
+    }
+    if (links.length > 0) {
+      UrlHealthChecker(links, (valid_links) => {
+        if (valid_links.length > 0) {
+          bot.reply(message, valid_links.join('\n'));
+        }
+      });
     }
   });
 });
