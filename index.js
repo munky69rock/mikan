@@ -12,7 +12,6 @@ const help = require('./lib/help.js');
 const storage = require('./lib/storage.js');
 const UrlHealthChecker = require('./lib/url_health_checker.js');
 const EventHook = require('./lib/event_hook.js');
-const request = require('request');
 
 const controller = require('botkit').slackbot({
   storage: storage({ path: 'data' })
@@ -71,28 +70,12 @@ fs.readdirSync(scriptsPath).forEach(file => {
 });
 
 
-const userLocalToken = process.env.USER_LOCAL_TOKEN;
-if (userLocalToken) {
-  controller.on('direct_message,direct_mention,mention', (bot, message) => {
-    controller.storage.users.get(message.user, (err, user) => {
-      if (err || !user) {
-        return;
-      }
-      const url = `https://chatbot-api.userlocal.jp/api/chat?message=${encodeURIComponent(message.text)}&key=${userLocalToken}&bot_name=mikan&platform=slack&user_name=${user.name}`;
-      request.get(url, (err, httpResponse, body) => {
-        const res = JSON.parse(body);
-        bot.reply(message, res.result);
-      });
-    });
-  });
-
-}
+const A3rt = require('./lib/a3rt.js');
+A3rt(process.env.A3RT_TOKEN, controller);
 
 const bot = controller.spawn({
   token
-  /* eslint-disable no-unused-vars */
-}).startRTM((err, bot, payload) => {
-  /* eslint-enable no-unused-vars */
+}).startRTM((err, bot) => {
   if (err) {
     return logger.error(err);
   }
@@ -106,11 +89,13 @@ const bot = controller.spawn({
 });
 
 bot.botkit.on('rtm_open', () => {
+  logger.info('rtm_open');
   // parse help message
   paths.forEach(path => {
     help.parse(path, bot.identity.name);
   });
 }).on('rtm_close', () => {
+  logger.info('rtm_close');
   process.exit(1);
 });
 

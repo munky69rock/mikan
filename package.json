@@ -33,6 +33,7 @@
   "scripts": {
     "coverage": "nyc -i babel-register mocha $(find test/ -type f -name \"*.js\")",
     "lint": "eslint .",
+    "fix-lint": "eslint . --fix",
     "list": "forever -p . list",
     "local": "node .",
     "restart": "npm stop && npm start",
