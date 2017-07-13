@@ -41,7 +41,7 @@ controller.on('bot_message', (bot, message) => {
     let links = [];
     if (attachment && attachment.text) {
       let m = null;
-      while (m = link_pattern.exec(attachment.text)) {
+      while ((m = link_pattern.exec(attachment.text)) !== null) {
         links.push(m[1]);
       }
     }

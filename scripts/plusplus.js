@@ -8,7 +8,7 @@ const logger      = require.main.require('./lib/logger.js');
 
 module.exports = controller => {
   const scoreKeeper = new ScoreKeeper(controller.storage.of(__filename));
-  controller.hears([/([\w\S]+)(?:[\W\s]*)?(\+\+|\-\-)$/], 'direct_message,direct_mention,mention,ambient', (bot, message) => {
+  controller.hears([/([\w\S]+)(?:[\W\s]*)?(\+\+|--)$/], 'direct_message,direct_mention,mention,ambient', (bot, message) => {
     const name = message.match[1];
     const symbol = message.match[2];
     let emoji = '';

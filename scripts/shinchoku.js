@@ -42,7 +42,7 @@ module.exports = controller => {
 
   controller.hears([/shinc[hy]oku (add|ok|good|dame|no|ng) (.*)/i], 'direct_message,direct_mention,mention,ambient', (bot, message) => {
     const status = getStatusFromKeyword(message.match[1]);
-    const url = message.match[2].trim().replace(/\</, '').replace(/>$/, '');
+    const url = message.match[2].trim().replace(/</, '').replace(/>$/, '');
 
     const callback = () => {
       bot.api.reactions.add({
@@ -126,7 +126,7 @@ module.exports = controller => {
   });
 
   controller.hears([/shinchoku (?:remove|rm) (.*)/], 'direct_message,direct_mention,mention,ambient', (bot, message) => {
-    const url = message.match[1].trim().replace(/\</, '').replace(/>$/, '');
+    const url = message.match[1].trim().replace(/</, '').replace(/>$/, '');
     storage.get((err, data) => {
       if (data) {
         Object.keys(data).forEach(k => {
