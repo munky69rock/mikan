@@ -13,7 +13,7 @@ describe('Ambush', () => {
     storage = new Storage();
     ambush = new Ambush(storage);
     ambush.save = ambush._save;
-  }); 
+  });
 
   describe('#load', () => {
     beforeEach(() => {
@@ -28,4 +28,3 @@ describe('Ambush', () => {
     });
   });
 });
-

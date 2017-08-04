@@ -22,9 +22,12 @@
     "chai": "^4.0.1",
     "eslint": "^4.1.0",
     "eslint-config-airbnb": "^15.0.0",
+    "eslint-config-prettier": "^2.3.0",
     "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-prettier": "^2.1.2",
     "mocha": "^3.2.0",
     "nyc": "^11.0.1",
+    "prettier": "^1.5.3",
     "sinon": "^2.0.0",
     "sinon-chai": "^2.8.0"
   },
@@ -32,8 +35,7 @@
   "main": "index.js",
   "scripts": {
     "coverage": "nyc -i babel-register mocha $(find test/ -type f -name \"*.js\")",
-    "lint": "eslint .",
-    "fix-lint": "eslint . --fix",
+    "lint": "eslint . --fix",
     "list": "forever -p . list",
     "local": "node .",
     "restart": "npm stop && npm start",

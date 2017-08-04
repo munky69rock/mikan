@@ -19,28 +19,35 @@ module.exports = controller => {
     });
   };
 
-  controller.hears([/(lgtm|:\+1:)/i], 'direct_message,direct_mention,mention,ambient', (bot, message) => {
-    let count = 0;
-    let callback = (error, url) => {
-      count += 1;
-      if (error && count < 3) {
-        return fetchImageUrl(callback);
-      }
-      bot.reply(message, {
-        text: url,
-        username: 'LGTM',
-        icon_emoji: ':+1:'
-      });
-      bot.api.reactions.add({
-        timestamp: message.ts,
-        channel: message.channel,
-        name: '+1'
-      }, (err) => {
-        if (err) {
-          logger.log('Failed to add emoji reaction :(', err);
+  controller.hears(
+    [/(lgtm|:\+1:)/i],
+    'direct_message,direct_mention,mention,ambient',
+    (bot, message) => {
+      let count = 0;
+      let callback = (error, url) => {
+        count += 1;
+        if (error && count < 3) {
+          return fetchImageUrl(callback);
         }
-      }); 
-    };
-    fetchImageUrl(callback);
-  });
+        bot.reply(message, {
+          text: url,
+          username: 'LGTM',
+          icon_emoji: ':+1:'
+        });
+        bot.api.reactions.add(
+          {
+            timestamp: message.ts,
+            channel: message.channel,
+            name: '+1'
+          },
+          err => {
+            if (err) {
+              logger.log('Failed to add emoji reaction :(', err);
+            }
+          }
+        );
+      };
+      fetchImageUrl(callback);
+    }
+  );
 };

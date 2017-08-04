@@ -9,5 +9,5 @@ module.exports = () => {
     },
     start: true,
     timeZone: 'Asia/Tokyo'
-  });  
+  });
 };

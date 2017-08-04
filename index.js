@@ -23,7 +23,7 @@ controller.hooks = new EventHook(['ambient'], hooks => {
       logger.debug(`hooks ${e}`);
       controller.hooks.trigger(e, cb => cb(bot, message));
     });
-  }); 
+  });
 });
 
 // load config if json exists
@@ -41,32 +41,34 @@ fs.readdirSync(scriptsPath).forEach(file => {
   require(path)(controller);
 });
 
+const bot = controller
+  .spawn({
+    token
+  })
+  .startRTM((err, bot) => {
+    if (err) {
+      return logger.error(err);
+    }
 
-const bot = controller.spawn({
-  token
-}).startRTM((err, bot) => {
-  if (err) {
-    return logger.error(err);
-  }
-
-  // register cron jobs
-  const cronPath = Path.join(__dirname, 'cron');
-  fs.readdirSync(cronPath).forEach(file => {
-    require(`${cronPath}/${file}`)(bot);
+    // register cron jobs
+    const cronPath = Path.join(__dirname, 'cron');
+    fs.readdirSync(cronPath).forEach(file => {
+      require(`${cronPath}/${file}`)(bot);
+    });
   });
 
-});
-
-bot.botkit.on('rtm_open', () => {
-  logger.info('rtm_open');
-  // parse help message
-  paths.forEach(path => {
-    help.parse(path, bot.identity.name);
+bot.botkit
+  .on('rtm_open', () => {
+    logger.info('rtm_open');
+    // parse help message
+    paths.forEach(path => {
+      help.parse(path, bot.identity.name);
+    });
+  })
+  .on('rtm_close', () => {
+    logger.info('rtm_close');
+    process.exit(1);
   });
-}).on('rtm_close', () => {
-  logger.info('rtm_close');
-  process.exit(1);
-});
 
 // load and save team, member and channel data from slack
 require('./lib/slack_sync.js')(bot).all();
@@ -103,11 +105,10 @@ if (clientId && clientSecret && redirectUri) {
   });
 
   controller.setupWebserver(port, (err, webserver) => {
-
     // set up web endpoints for oauth, receiving webhooks, etc.
     controller
       .createHomepageEndpoint(webserver)
-      .createOauthEndpoints(webserver, (err,req,res) => {
+      .createOauthEndpoints(webserver, (err, req, res) => {
         logger.log(err, req, res);
       })
       .createWebhookEndpoints(webserver);
@@ -120,6 +121,9 @@ if (clientId && clientSecret && redirectUri) {
 
   controller.on('slash_command', (bot, message) => {
     logger.debug(message);
-    bot.replyPrivate(message,'Only the person who used the slash command can see this.');
+    bot.replyPrivate(
+      message,
+      'Only the person who used the slash command can see this.'
+    );
   });
 }

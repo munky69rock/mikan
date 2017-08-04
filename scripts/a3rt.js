@@ -2,7 +2,7 @@ const request = require('request');
 const BASE_URL = 'https://api.a3rt.recruit-tech.co.jp/talk/v1/smalltalk';
 
 module.exports = controller => {
-  const token = process.env.A3RT_TOKEN
+  const token = process.env.A3RT_TOKEN;
   if (!token) {
     return;
   }
@@ -19,7 +19,7 @@ module.exports = controller => {
         const res = JSON.parse(body);
         try {
           bot.reply(message, res.results[0].reply);
-        } catch(e) {
+        } catch (e) {
           bot.reply(message, `APIがなんかあやしい... ${e}`);
         }
       });

@@ -6,15 +6,15 @@ should();
 
 describe('strings', () => {
   it('should be formatted', () => {
-    strings.hdoc(`
+    strings
+      .hdoc(
+        `
     this
       is
         heredoc.
-    `).should.equal(
-      'this\n' +
-      '  is\n' +
-      '    heredoc.\n'
-    );
+    `
+      )
+      .should.equal('this\n' + '  is\n' + '    heredoc.\n');
   });
 
   it('should be empty string', () => {
@@ -22,9 +22,13 @@ describe('strings', () => {
   });
 
   it('should be worked', () => {
-    strings.hdoc(`
+    strings
+      .hdoc(
+        `
 
 
-    `).should.equal('\n\n');
+    `
+      )
+      .should.equal('\n\n');
   });
 });

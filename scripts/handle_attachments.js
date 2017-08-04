@@ -8,7 +8,7 @@ module.exports = controller => {
       logger.debug('bot_message: no attachments');
       return;
     }
-    message.attachments.forEach((attachment) => {
+    message.attachments.forEach(attachment => {
       logger.debug('attachment', attachment);
       const link_pattern = /[<(](https?:\/\/[^>)|]+)[>)|]/g;
       let links = [];
@@ -19,7 +19,7 @@ module.exports = controller => {
         }
       }
       if (links.length > 0) {
-        new UrlHealthChecker(links).ensure((valid_links) => {
+        new UrlHealthChecker(links).ensure(valid_links => {
           if (valid_links.length > 0) {
             bot.reply(message, valid_links.join('\n'));
           }
