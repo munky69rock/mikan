@@ -1,7 +1,8 @@
 const request = require('request');
 const BASE_URL = 'https://api.a3rt.recruit-tech.co.jp/talk/v1/smalltalk';
 
-module.exports = (token, controller) => {
+module.exports = controller => {
+  const token = process.env.A3RT_TOKEN
   if (!token) {
     return;
   }

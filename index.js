@@ -10,7 +10,6 @@ const fs = require('fs');
 const Path = require('path');
 const help = require('./lib/help.js');
 const storage = require('./lib/storage.js');
-const UrlHealthChecker = require('./lib/url_health_checker.js');
 const EventHook = require('./lib/event_hook.js');
 
 const controller = require('botkit').slackbot({
@@ -25,33 +24,6 @@ controller.hooks = new EventHook(['ambient'], hooks => {
       controller.hooks.trigger(e, cb => cb(bot, message));
     });
   }); 
-});
-
-// handle bot_message
-controller.on('bot_message', (bot, message) => {
-  logger.debug(`bot_message: ${message.text}`, message);
-  if (!message.attachments) {
-    logger.debug('bot_message: no attachments');
-    return;
-  }
-  message.attachments.forEach((attachment) => {
-    logger.debug('attachment', attachment);
-    const link_pattern = /[<(](https?:\/\/[^>)|]+)[>)|]/g;
-    let links = [];
-    if (attachment && attachment.text) {
-      let m = null;
-      while ((m = link_pattern.exec(attachment.text)) !== null) {
-        links.push(m[1]);
-      }
-    }
-    if (links.length > 0) {
-      UrlHealthChecker(links, (valid_links) => {
-        if (valid_links.length > 0) {
-          bot.reply(message, valid_links.join('\n'));
-        }
-      });
-    }
-  });
 });
 
 // load config if json exists
@@ -69,9 +41,6 @@ fs.readdirSync(scriptsPath).forEach(file => {
   require(path)(controller);
 });
 
-
-const A3rt = require('./lib/a3rt.js');
-A3rt(process.env.A3RT_TOKEN, controller);
 
 const bot = controller.spawn({
   token
