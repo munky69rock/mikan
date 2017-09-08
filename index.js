@@ -33,12 +33,24 @@ if (fs.existsSync(configFile)) {
 }
 
 // load all scripts
-const scriptsPath = Path.join(__dirname, 'scripts');
 const paths = [];
-fs.readdirSync(scriptsPath).forEach(file => {
-  const path = `${scriptsPath}/${file}`;
-  paths.push(path);
-  require(path)(controller);
+['before', '', 'after'].forEach(d => {
+  const scriptsPath = Path.join(__dirname, 'scripts', d);
+  fs.access(scriptsPath, 'r', err => {
+    if (err) {
+      return;
+    }
+    fs.readdirSync(scriptsPath).forEach(file => {
+      const path = `${scriptsPath}/${file}`;
+      fs.stat(path, (err, stat) => {
+        if (err || stat.isDirectory()) {
+          return;
+        }
+        paths.push(path);
+        require(path)(controller);
+      });
+    });
+  });
 });
 
 const bot = controller
