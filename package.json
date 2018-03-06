@@ -29,7 +29,7 @@
     "nyc": "^11.0.1",
     "prettier": "^1.5.3",
     "sinon": "^2.0.0",
-    "sinon-chai": "^2.8.0"
+    "sinon-chai": "^3.0.0"
   },
   "license": "ISC",
   "main": "index.js",
