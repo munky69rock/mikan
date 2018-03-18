@@ -1,5 +1,7 @@
 # MIKAN
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/munky69rock/mikan.svg)](https://greenkeeper.io/)
+
 hubot-like slack bot using [botkit](https://github.com/howdyai/botkit/)
 
 ## Usage
